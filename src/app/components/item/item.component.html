@@ -1,0 +1,48 @@
+<ng-container *ngIf="item">
+  <div class="row item-container">
+    <!-- Item Info (col-9) -->
+    <div class="col-9 item-info">
+      <h5 class="item-name">{{ item.productName }}</h5>
+      <!-- <p class="item-description">{{ item.description }}</p> -->
+      <div class="item-options">
+        <span *ngFor="let option of item.options" class="option-group">
+          <span
+            *ngFor="let value of option.optionValue"
+            class="badge me-1"
+            [ngClass]="{
+              'bg-primary': isSelected(option.optionName, value),
+              'bg-secondary': !isSelected(option.optionName, value)
+            }"
+            (click)="selectOption(option.optionName, value)"
+          >
+            {{ value }} </span
+          ><br />
+        </span>
+      </div>
+    </div>
+
+    <!-- Price and Confirm Button (col-3) -->
+    <div class="col-3 item-price text-end">
+      <div *ngIf="getSelectedPrice() !== undefined">
+        <span
+          >{{ this.selectedOptions["size"] }}: {{ getSelectedPrice() }} 元</span
+        >
+      </div>
+
+      <!-- Show a message when no size is selected -->
+      <div *ngIf="getSelectedPrice() === undefined">
+        <span>請選擇尺寸</span>
+      </div>
+
+      <!-- Confirm Button -->
+      <div class="mt-3">
+        <button class="btn btn-success me-1" [disabled]="!getSelectedPrice()">
+          確認
+        </button>
+        <button class="btn btn-secondary" (click)="clearSelections()">
+          取消
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

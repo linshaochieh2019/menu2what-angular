@@ -1,0 +1,77 @@
+<ng-container *ngIf="!orderForm.value.store; else orderCreated">
+  <!-- Basic Order Form using Reactive Forms -->
+  <form [formGroup]="orderForm" (ngSubmit)="createOrder()" class="order-form">
+    <div class="mb-3">
+      <label for="store" class="form-label">Store</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="store" 
+        formControlName="store" 
+        placeholder="Enter Store Name"
+        required 
+      />
+      <div *ngIf="orderForm.get('store')?.invalid && orderForm.get('store')?.touched" class="text-danger">
+        Store name is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="orderDeadline" class="form-label">Order Deadline</label>
+      <input 
+        type="datetime-local" 
+        class="form-control" 
+        id="orderDeadline" 
+        formControlName="orderDeadline" 
+        required 
+      />
+      <div *ngIf="orderForm.get('orderDeadline')?.invalid && orderForm.get('orderDeadline')?.touched" class="text-danger">
+        Order deadline is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="deliverTime" class="form-label">Delivery Time</label>
+      <input 
+        type="datetime-local" 
+        class="form-control" 
+        id="deliverTime" 
+        formControlName="deliverTime" 
+        required 
+      />
+      <div *ngIf="orderForm.get('deliverTime')?.invalid && orderForm.get('deliverTime')?.touched" class="text-danger">
+        Delivery time is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="whoPays" class="form-label">Who Pays?</label>
+      <select 
+        class="form-control" 
+        id="whoPays" 
+        formControlName="whoPays" 
+        required
+      >
+        <option value="" disabled>Select who pays</option>
+        <option value="customer">Customer</option>
+        <option value="employer">Employer</option>
+      </select>
+      <div *ngIf="orderForm.get('whoPays')?.invalid && orderForm.get('whoPays')?.touched" class="text-danger">
+        Please select who pays.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">Submit</button>
+  </form>
+</ng-container>
+
+<!-- Display form data after order is created -->
+<ng-template #orderCreated>
+  <div class="order-summary">
+    <h4>Order Summary</h4>
+    <p>Store: {{ orderForm.value.store }}</p>
+    <p>Order Deadline: {{ orderForm.value.orderDeadline }}</p>
+    <p>Delivery Time: {{ orderForm.value.deliverTime }}</p>
+    <p>Who Pays: {{ orderForm.value.whoPays }}</p>
+  </div>
+</ng-template>

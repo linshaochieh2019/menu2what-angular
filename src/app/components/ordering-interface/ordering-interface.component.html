@@ -1,0 +1,49 @@
+<!-- <div class="container">
+  <h1 class="text-center">{{ store.storeName }}</h1>
+  <div class="row">
+    <div *ngFor="let item of store.menu" class="col-md-6">
+      <app-item [item]="item"></app-item>
+    </div>
+  </div>
+</div> -->
+
+<div class="container mt-4">
+  <!-- Store Information -->
+  <div class="store-info">
+    <h3>{{ store.storeName }}</h3>
+    <div>
+      <span>Rating: ★★★☆☆ (3)</span><br>
+      <span>訂購時間: 2024/05/17 (Fri)</span><br>
+      <span>飲品到達: 2024/05/15 (Wed) 12:00</span>
+    </div>
+  </div>
+
+  <!-- Tabs for Categories (for this example just plain buttons for simplicity) -->
+  <div class="my-3">
+    <button class="badge bg-success me-1">開放中</button>
+    <button class="badge bg-secondary me-1">飲料</button>
+    <button class="badge bg-secondary">公司買單</button>
+  </div>
+
+  <!-- Popular Items -->
+  <!-- <h5>目前熱門:</h5>
+  <ol>
+    <li *ngFor="let item of popularItems">
+      {{ item.productName }} (x{{ item.orderCount }})
+    </li>
+  </ol> -->
+
+  <!-- Category: Seasonal -->
+  <!-- <h5 class="mt-4">期間限定 Seasonal</h5>
+  <div class="menu-items">
+    <div *ngFor="let item of seasonalItems" class="menu-item">
+      <p>{{ item.productName }} - {{ item.priceSetting[0].price }} TWD</p>
+    </div>
+  </div> -->
+
+  <div class="menu-items">
+    <div *ngFor="let item of store.menu" class="menu-item">
+      <app-item [item]="item"></app-item>
+    </div>
+  </div>
+</div>
