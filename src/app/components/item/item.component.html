@@ -31,7 +31,7 @@
 
       <!-- Show a message when no size is selected -->
       <div *ngIf="getSelectedPrice() === undefined">
-        <span>請選擇尺寸</span>
+        <span>請選擇</span>
       </div>
 
       <!-- Confirm Button -->
@@ -39,7 +39,11 @@
         <button class="btn btn-success me-1" [disabled]="!getSelectedPrice()">
           確認
         </button>
-        <button class="btn btn-secondary" (click)="clearSelections()">
+        <button
+          class="btn btn-secondary"
+          (click)="clearSelections()"
+          [disabled]="!hasSelections()"
+        >
           取消
         </button>
       </div>

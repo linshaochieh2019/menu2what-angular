@@ -7,14 +7,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
-  orderForm: FormGroup = this.fb.group({  // Initialize here
-    store: ['', Validators.required],
-    orderDeadline: ['', Validators.required],
-    deliverTime: ['', Validators.required],
-    whoPays: ['', Validators.required],
-  });
+  orderForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.orderForm = this.fb.group({
+      store: ['', Validators.required],
+      orderDeadline: ['', Validators.required],
+      deliverTime: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     // You could still modify the form if needed here, e.g., set default values

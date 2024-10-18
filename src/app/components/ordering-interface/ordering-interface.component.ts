@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, dummyStores } from '../../models/store.model';
+import { Store } from '../../models/store.model';
+import { StoreService } from '../../services/store.service';
 
 @Component({
   selector: 'app-ordering-interface',
   templateUrl: './ordering-interface.component.html',
-  styleUrl: './ordering-interface.component.scss'
+  styleUrl: './ordering-interface.component.scss',
 })
 export class OrderingInterfaceComponent implements OnInit {
-
-  store: Store = dummyStores[0];
+  selectedStore: Store | undefined;
+  storeId = '3';
+  constructor(private storeService: StoreService) {}
 
   ngOnInit() {
-    // Initialize the ordering interface
-    console.log(this.store)
+    this.storeService.getStoreById(this.storeId).subscribe(store => {
+      this.selectedStore = store;
+    });
   }
-
-  
 }

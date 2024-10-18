@@ -19,7 +19,7 @@ export interface PriceSetting {
 }
 
 export interface Condition {
-  size: string;
+  [key: string]: string;  // Allows indexing by string keys
 }
 
 export interface Option {

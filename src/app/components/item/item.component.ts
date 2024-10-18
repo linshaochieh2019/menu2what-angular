@@ -28,20 +28,30 @@ export class ItemComponent {
     return this.selectedOptions[optionName] === optionValue;
   }
 
-  getSelectedPrice(): number | undefined {
-    // Find the price based on the selected size
-    if (!this.item || !this.selectedOptions['size']) return undefined;
-
-    const selectedSize = this.selectedOptions['size'];
-
-    // Find the matching price for the selected size
-    const priceSetting = this.item.priceSetting.find((setting) =>
-      setting.conditions.find((cond) => cond.size === selectedSize)
-    );
-
-    return priceSetting ? priceSetting.price : undefined;
+  hasSelections(): boolean {
+    return Object.keys(this.selectedOptions).length > 0;
   }
 
+  getSelectedPrice(): number | undefined {
+    // Check if item or any selected option is missing
+    if (!this.item || !this.item.priceSetting) return undefined;
+  
+    // Filter the price settings based on all selected options (e.g., size, ice, sugar)
+    const matchedPriceSetting = this.item.priceSetting.find((setting) => {
+      // Ensure that every condition in this price setting matches the selected options
+      return setting.conditions.every((condition) => {
+        const optionKey = Object.keys(condition)[0]; // For example, 'size', 'ice', 'sugar'
+        const selectedOption = this.selectedOptions[optionKey];
+        
+        // Check if the selected option matches the condition
+        return selectedOption === condition[optionKey];
+      });
+    });
+  
+    // Return the matching price if found, otherwise undefined
+    return matchedPriceSetting ? matchedPriceSetting.price : undefined;
+  }
+  
   // Clear all selections
   clearSelections() {
     this.selectedOptions = {}; // Reset the selected options

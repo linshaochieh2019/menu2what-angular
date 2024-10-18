@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Services
+Express serves as the main API gateway to handle operations like file uploads, authentication, and custom business logic.
+Firestore handles data storage and real-time synchronization. You can query the database in real-time directly from Angular or through Express (depending on your use case).
+Angular can directly listen to Firestore for real-time updates, while also interacting with the Node.js Express server for additional functionality.
