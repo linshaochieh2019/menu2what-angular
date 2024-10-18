@@ -1,0 +1,13 @@
+<div *ngIf="order">
+  <h2>Order Details</h2>
+  <p>Order ID: {{ order.orderId }}</p>
+  <p>Store ID: {{ order.storeId }}</p>
+  <p>Order Deadline: {{ order.orderDeadline }}</p>
+  <p>Deliver Time: {{ order.deliverTime }}</p>
+  <p>Status: {{ order.status }}</p>
+  <p>Created Time: {{ order.createdTime }}</p>
+</div>
+
+<div *ngIf="order">
+  <app-menu [storeId]="order.storeId"></app-menu>
+</div>

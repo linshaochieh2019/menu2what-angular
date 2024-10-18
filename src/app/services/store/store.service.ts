@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Store } from '../models/store.model';
+import { Store } from '../../models/store.model';
 import { Observable, from, map } from 'rxjs';
 
 
@@ -39,4 +39,15 @@ export class StoreService {
     );
   }
 
+  // Function to get all stores 
+  getAllStores(): Observable<Store[]> {
+    return this.stores;
+  }
+
+  // Function to get all stores' id and name
+  getAllStoresIdAndName(): Observable<any[]> {
+    return this.stores.pipe(
+      map(stores => stores.map(store => ({ id: store.storeId, name: store.storeName })))
+    );
+  }
 }

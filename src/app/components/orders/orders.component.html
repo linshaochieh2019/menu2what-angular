@@ -1,0 +1,22 @@
+<div>
+  <h2>All Orders</h2>
+  <ul>
+    <li *ngFor="let order of orders">
+      <a [routerLink]="['/order', order.orderId]">
+        <p>Order ID: {{ order.orderId }} | Store ID: {{ order.storeId }}</p>
+      </a>
+
+      <button (click)="editOrder(order)">Edit</button>
+      <button (click)="deleteOrder(order.orderId)">Delete</button>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="selectedOrder">
+  <h2>Edit Order</h2>
+  <form (ngSubmit)="updateOrder()">
+    <label for="storeId">Store ID:</label>
+    <input [(ngModel)]="selectedOrder.storeId" name="storeId" required />
+    <button type="submit">Update Order</button>
+  </form>
+</div>

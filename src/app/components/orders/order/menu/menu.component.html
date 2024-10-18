@@ -1,22 +1,22 @@
 <div class="container mt-4">
-  <div class="selectedStore-info">
-    <h3>{{ selectedStore?.storeName }}</h3>
-    <div>
+  <div class="store-info">
+    <h3>{{ store?.storeName }}</h3>
+    <!-- <div>
       <span>Rating: ★★★☆☆ (3)</span><br />
       <span>訂購時間: 2024/05/17 (Fri)</span><br />
       <span>飲品到達: 2024/05/15 (Wed) 12:00</span>
-    </div>
+    </div> -->
   </div>
 
-  <div class="my-3">
+  <!-- <div class="my-3">
     <button class="badge bg-success me-1">開放中</button>
     <button class="badge bg-secondary me-1">飲料</button>
     <button class="badge bg-secondary">公司買單</button>
-  </div>
+  </div> -->
 
-  <div *ngIf="selectedStore">
-    <div *ngFor="let item of selectedStore.menu" class="menu-item">
-      <app-item [item]="item"></app-item>
+  <div *ngIf="store">
+    <div *ngFor="let item of store.menu" class="menu-item">
+      <app-item [item]="item"></app-item>      
     </div>
   </div>
 </div>
