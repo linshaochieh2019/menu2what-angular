@@ -1,0 +1,14 @@
+<div *ngIf="stores && stores.length > 0">
+  <h2>Stores List</h2>
+  <ul>
+    <li *ngFor="let store of stores">
+      <a [routerLink]="['/menu', store.storeId]"> 
+        <p>{{ store.storeName }}</p>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="stores.length === 0">
+  <p>No stores available</p>
+</div>
