@@ -4,13 +4,11 @@ import { Order, OrderItem } from '../../../../models/order.model';
 import { OrderService } from '../../../../services/order/order.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, take } from 'rxjs';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
   styleUrl: './item.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush, // Use OnPush strategy
 })
 export class ItemComponent {
   @Input() item: Product | undefined;
