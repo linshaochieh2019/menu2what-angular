@@ -23,14 +23,12 @@
 
     <!-- Price and Confirm Button (col-3) -->
     <div class="col-3 item-price text-end">
-      <div *ngIf="getSelectedPrice() !== undefined">
-        <span
-          >{{ this.selectedOptions["size"] }}: {{ getSelectedPrice() }} 元</span
-        >
+      <div *ngIf="selectedPrice !== undefined">
+        <span>{{ selectedPrice }} 元</span>
       </div>
 
       <!-- Show a message when no size is selected -->
-      <div *ngIf="getSelectedPrice() === undefined">
+      <div *ngIf="selectedPrice === undefined">
         <span>請選擇</span>
       </div>
 
@@ -38,7 +36,7 @@
       <div class="mt-3">
         <button
           class="btn btn-success me-1"
-          [disabled]="!getSelectedPrice()"
+          [disabled]="!selectedPrice"
           (click)="onConfirm()"
         >
           確認

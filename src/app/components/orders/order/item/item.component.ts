@@ -3,6 +3,7 @@ import { Product } from '../../../../models/store.model';
 import { Order, OrderItem } from '../../../../models/order.model';
 import { OrderService } from '../../../../services/order/order.service';
 import { ActivatedRoute } from '@angular/router';
+import { switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-item',
@@ -13,6 +14,7 @@ export class ItemComponent {
   @Input() item: Product | undefined;
   orderId: string | null = null;
   selectedOptions: { [key: string]: string } = {};
+  selectedPrice: number | undefined;
 
   constructor(
     private orderService: OrderService,
@@ -26,7 +28,7 @@ export class ItemComponent {
   selectOption(optionName: string, optionValue: string) {
     // Save the selected option for each optionName
     this.selectedOptions[optionName] = optionValue;
-    console.log(this.selectedOptions);
+    this.calculateSelectedPrice();
   }
 
   isSelected(optionName: string, optionValue: string): boolean {
@@ -38,24 +40,25 @@ export class ItemComponent {
     return Object.keys(this.selectedOptions).length > 0;
   }
 
-  getSelectedPrice(): number | undefined {
+  calculateSelectedPrice(): void {
     // Check if item or any selected option is missing
-    if (!this.item || !this.item.priceSetting) return undefined;
+    if (!this.item || !this.item.priceSetting) {
+      this.selectedPrice = undefined;
+      return;
+    }
 
     // Filter the price settings based on all selected options (e.g., size, ice, sugar)
     const matchedPriceSetting = this.item.priceSetting.find((setting) => {
-      // Ensure that every condition in this price setting matches the selected options
       return setting.conditions.every((condition) => {
-        const optionKey = Object.keys(condition)[0]; // For example, 'size', 'ice', 'sugar'
+        const optionKey = Object.keys(condition)[0];
         const selectedOption = this.selectedOptions[optionKey];
-
-        // Check if the selected option matches the condition
         return selectedOption === condition[optionKey];
       });
     });
 
-    // Return the matching price if found, otherwise undefined
-    return matchedPriceSetting ? matchedPriceSetting.price : undefined;
+    this.selectedPrice = matchedPriceSetting
+      ? matchedPriceSetting.price
+      : undefined;
   }
 
   // Clear all selections
@@ -75,14 +78,42 @@ export class ItemComponent {
     const orderItem: OrderItem = {
       productId: this.item?.productId ?? '',
       options: orderItemOptions,
-      price: this.getSelectedPrice() ?? 0,
+      price: this.selectedPrice ?? 0,
       orderedBy: 'user',
     };
 
-    // update order object stored in orderService
-    this.orderService.addOrderItem(this.orderId!, orderItem);
+    if (!this.orderId) {
+      console.error('Order ID is missing');
+      return;
+    }
 
-    // Clear the selections after confirming
-    this.clearSelections(); // Clear the selections after confirming
+    // Add the logic to directly update the order in the component
+    this.orderService
+      .getOrder(this.orderId)
+      .pipe(
+        switchMap((order) => {
+          if (!order) {
+            throw new Error(`Order with ID ${this.orderId} not found.`);
+          }
+
+          const updatedOrder = {
+            ...order,
+            items: [...order.items, orderItem],
+          };
+
+          return this.orderService.updateOrder(updatedOrder);
+        }),
+        take(1) // Automatically unsubscribe after the first update
+      )
+      .subscribe({
+        next: () => {
+          console.log(`Order item successfully added to order ${this.orderId}`);
+          this.clearSelections(); // Clear selections after successful update
+          this.selectedPrice = undefined; // Reset the selected price
+        },
+        error: (err) => {
+          console.error('Error adding item to order:', err);
+        },
+      });
   }
 }

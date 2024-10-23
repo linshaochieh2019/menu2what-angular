@@ -1,35 +1,34 @@
-<div *ngIf="order" class="my-4">
-  <h2>Order Details</h2>
-  <p>Order ID: {{ order.orderId }}</p>
-  <p>Store ID: {{ order.storeId }}</p>
-  <p>Order Deadline: {{ order.orderDeadline }}</p>
-  <p>Deliver Time: {{ order.deliverTime }}</p>
-  <p>Status: {{ order.status }}</p>
-  <p>Created Time: {{ order.createdTime }}</p>
-</div>
+<ng-container *ngIf="order$ | async as order">
+  <div class="my-4">
+    <h2>Order Details</h2>
+    <p>Order ID: {{ order.orderId }}</p>
+    <p>Store ID: {{ order.storeId }}</p>
+    <p>Order Deadline: {{ order.orderDeadline }}</p>
+    <p>Deliver Time: {{ order.deliverTime }}</p>
+    <p>Status: {{ order.status }}</p>
+    <p>Created Time: {{ order.createdTime }}</p>
+  </div>
 
-<div *ngIf="order" class="my-4">
-  <ul *ngIf="order.items && order.items.length > 0">
-    <li *ngFor="let item of order.items; let i = index">
-      <strong>Product ID:</strong> {{ item.productId }} <br />
-      <strong>Options:</strong>
-      <ul>
-        <li *ngFor="let option of objectKeys(item.options)">
-          {{ getOptionValue(item.options[option]) }}
-        </li>
-      </ul>
-      <button (click)="removeItem(order.orderId, i)">
-        Remove Item
-      </button>
-      <!-- Remove button -->
-    </li>
-  </ul>
+  <div class="my-4">
+    <ul *ngIf="order.items && order.items.length > 0">
+      <li *ngFor="let item of order.items; let i = index">
+        <strong>Product ID:</strong> {{ item.productId }} <br />
+        <strong>Options:</strong>
+        <ul>
+          <li *ngFor="let option of objectKeys(item.options)">
+            {{ getOptionValue(item.options[option]) }}
+          </li>
+        </ul>
+        <button (click)="removeItem(order, i)">Remove Item</button>
+      </li>
+    </ul>
 
-  <p *ngIf="!order.items || order.items.length === 0">
-    No items in this order.
-  </p>
-</div>
+    <p *ngIf="!order.items || order.items.length === 0">
+      No items in this order.
+    </p>
+  </div>
 
-<div *ngIf="order" class="my-4">
-  <app-menu [storeId]="order.storeId"></app-menu>
-</div>
+  <div class="my-4">
+    <app-menu [storeId]="order.storeId"></app-menu>
+  </div>
+</ng-container>

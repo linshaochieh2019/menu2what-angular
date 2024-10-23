@@ -3,57 +3,66 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Order, OrderItem } from '../../models/order.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   private ordersCollection: AngularFirestoreCollection<Order>;
-  public orders: Observable<Order[]>;
-  public order: Order | undefined;
+  private orderSubject = new BehaviorSubject<Order | undefined>(undefined);
+  order$: Observable<Order | undefined> = this.orderSubject.asObservable();
 
   constructor(private firestore: AngularFirestore) {
     this.ordersCollection = this.firestore.collection('orders');
-    this.orders = this.ordersCollection.valueChanges({ idField: 'orderId' }); // adds 'orderId' to the document
+  }
+
+  // Get all orders as an observable
+  getOrders(): Observable<Order[]> {
+    return this.ordersCollection.valueChanges({ idField: 'orderId' });
+  }
+
+  // Get a single order by ID as an observable
+  getOrder(orderId: string): Observable<Order | undefined> {
+    return this.ordersCollection
+      .doc(orderId)
+      .valueChanges()
+      .pipe(
+        map((order) => {
+          if (order) {
+            this.orderSubject.next(order as Order); // Emit the order to the subject
+            return order as Order;
+          } else {
+            this.orderSubject.next(undefined); // Emit undefined if no order is found
+            return undefined;
+          }
+        })
+      );
   }
 
   // Create a new order
   createOrder(order: Order): Promise<void> {
     const orderId = this.firestore.createId();
     order.orderId = orderId; // assign the generated ID to the order
-    this.order = order;
     return this.ordersCollection.doc(orderId).set(order);
-  }
-
-  // Get all orders
-  getAllOrders(): Observable<Order[]> {
-    return this.orders;
-  }
-
-  getOrderById(orderId: string): Observable<Order | undefined> {
-    return this.ordersCollection
-      .doc<Order>(orderId)
-      .valueChanges()
-      .pipe(
-        map((order) => order || undefined) // Ensure it returns undefined if no order is found
-      );
-  }
-
-  addOrderItem(orderId: string, orderItem: OrderItem) {
-    // Refresh the order to get the latest data
-    this.getOrderById(orderId).subscribe((order) => {
-      this.order = order;
-      this.order?.items.push(orderItem);
-      this.updateOrder(this.order!);
-    });
   }
 
   // Update an order by ID
   updateOrder(order: Order): Promise<void> {
-    return this.ordersCollection.doc(order.orderId).update(order);
+    this.ordersCollection
+      .doc(order.orderId)
+      .update(order)
+      .then(
+        () => {
+          this.orderSubject.next(order); // Emit the updated order to the subject
+        },
+        (error) => {
+          console.error('Error updating order: ', error);
+        }
+      );
+    return Promise.resolve();
   }
 
   // Delete an order by ID
