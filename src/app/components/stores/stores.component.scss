@@ -1,0 +1,18 @@
+.jumbotron {
+    background-color: #fcf6f1c9; /* Light beige background */
+    border-radius: 15px;
+}
+
+
+h1, .lead {
+    color: #333; /* Darker text color for better contrast */
+}
+
+.btn-primary {
+    background-color: #b08c68; /* Custom color for button */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #a57c5a; /* Slightly darker on hover */
+}

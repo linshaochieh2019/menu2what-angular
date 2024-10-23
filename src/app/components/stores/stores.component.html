@@ -1,14 +1,83 @@
-<div *ngIf="stores && stores.length > 0">
-  <h2>Stores List</h2>
-  <ul>
-    <li *ngFor="let store of stores">
-      <a [routerLink]="['/store', store.storeId]"> 
-        <p>{{ store.storeName }}</p>
-      </a>
-    </li>
-  </ul>
+<div class="jumbotron bg-light text-center py-5 mb-4">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Discover Your Local Stores</h1>
+    <p class="lead mb-4">
+      Find the best stores around you and make orders with your friends and
+      family.
+    </p>
+  </div>
 </div>
 
-<div *ngIf="stores.length === 0">
-  <p>No stores available</p>
+<div class="container py-5">
+  <!-- Featured Stores Section -->
+  <h2 class="fw-bold mb-4">Featured Stores</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+      <div class="card">
+        <img
+          src="path/to/gnc-image.jpg"
+          class="card-img-top"
+          alt="GNC Store Image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">GNC</h5>
+          <p class="card-text">Vitamins, supplements, and more</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img
+          src="path/to/starbucks-image.jpg"
+          class="card-img-top"
+          alt="Starbucks Store Image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Starbucks</h5>
+          <p class="card-text">Coffee, tea, and more</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img
+          src="path/to/walgreens-image.jpg"
+          class="card-img-top"
+          alt="Walgreens Store Image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Walgreens</h5>
+          <p class="card-text">Health, beauty, and everyday essentials</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular Categories Section -->
+  <h2 class="fw-bold mt-5 mb-3">Popular Near You</h2>
+  <div class="d-flex flex-wrap mb-4">
+    <button class="btn btn-light border me-2 mb-2">Deli</button>
+    <button class="btn btn-light border me-2 mb-2">Bakery</button>
+    <button class="btn btn-light border me-2 mb-2">Convenience</button>
+    <button class="btn btn-light border me-2 mb-2">Specialty</button>
+    <button class="btn btn-light border me-2 mb-2">Florist</button>
+    <button class="btn btn-light border mb-2">Health</button>
+  </div>
+
+  <div class="row g-4" *ngIf="stores && stores.length > 0">
+    <div class="col col-3" *ngFor="let store of stores">
+      <a [routerLink]="['/store', store.storeId]">
+        <div class="card">
+          <img
+            class="card-img-top"
+            alt="{{ store.storeName }}"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ store.storeName }}</h5>
+            <p class="card-text">飲料</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
 </div>

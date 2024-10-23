@@ -1,10 +1,31 @@
-<div *ngIf="store">
-  <h2>{{ store.storeName }}</h2>
-
-  <div *ngFor="let product of store.menu">
-    <h3>{{ product.productName }}</h3>
-    <p>{{ product.description }}</p>
+<ng-container *ngIf="store">
+  <div class="container my-5">
+    <div class="row mb-4">
+      <div class="col-7">
+        <!-- Image -->
+        <div class="card" style="max-width: 100%">
+          <img
+            src="{{ store.storeImage }}"
+            class="card-img-top"
+            alt="Store Image"
+          />
+        </div>
+      </div>
+      <div class="col-5">
+        <!-- Store info -->
+        <div>
+          <h2 class="mb-1">{{ store.storeName }}</h2>
+          <p class="text-muted mb-2">
+            <strong>Address:</strong> Somewhere in the world
+          </p>
+          <p class="text-muted mb-2"><strong>Hours:</strong> 11:00 - 23:00</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" (click)="startOrder()">
+            Start an Order
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-
-<button (click)="startOrder()">Start Order</button>
+</ng-container>

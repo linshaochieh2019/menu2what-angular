@@ -1,6 +1,7 @@
 export interface Store {
   storeId: string;
   storeName: string;
+  storeImage?: string;
   menu: Product[];
 }
 
