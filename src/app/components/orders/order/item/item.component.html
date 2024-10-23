@@ -36,7 +36,11 @@
 
       <!-- Confirm Button -->
       <div class="mt-3">
-        <button class="btn btn-success me-1" [disabled]="!getSelectedPrice()">
+        <button
+          class="btn btn-success me-1"
+          [disabled]="!getSelectedPrice()"
+          (click)="onConfirm()"
+        >
           確認
         </button>
         <button

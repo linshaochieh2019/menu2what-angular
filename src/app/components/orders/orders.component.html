@@ -16,7 +16,14 @@
   <h2>Edit Order</h2>
   <form (ngSubmit)="updateOrder()">
     <label for="storeId">Store ID:</label>
-    <input [(ngModel)]="selectedOrder.storeId" name="storeId" required />
+    <input [(ngModel)]="selectedOrder.storeId" name="storeId" required readonly />
+
+    <label for="orderDeadline">Order Deadline:</label>
+    <input type="datetime-local" [(ngModel)]="selectedOrder.orderDeadline" name="orderDeadline" required />
+    
+    <label for="deliverTime">Deliver Time:</label>
+    <input type="datetime-local" [(ngModel)]="selectedOrder.deliverTime" name="deliverTime" required />
+    
     <button type="submit">Update Order</button>
   </form>
 </div>

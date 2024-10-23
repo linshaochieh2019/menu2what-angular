@@ -29,7 +29,8 @@ export class OrdersComponent {
       orderDeadline: '',
       deliverTime: '',
       status: '',
-      createdTime: ''
+      createdTime: '',
+      items: []
     };
   }
 

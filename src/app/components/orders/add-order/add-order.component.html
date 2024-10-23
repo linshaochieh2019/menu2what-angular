@@ -1,8 +1,7 @@
 <div>
   <h2>Create Order</h2>
   <form (ngSubmit)="createOrder()">
-    <label for="storeId">Store ID:</label>
-    <input [(ngModel)]="newOrder.storeId" name="storeId" required />
+    <p>Store ID: {{ newOrder.storeId }}</p>
     <div>
       <label for="orderDeadline">Order Deadline:</label>
       <input

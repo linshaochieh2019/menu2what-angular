@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../../services/order/order.service';
 import { Order } from '../../../models/order.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-order',
@@ -13,7 +13,8 @@ export class AddOrderComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,20 +35,20 @@ export class AddOrderComponent implements OnInit {
       deliverTime: '',
       status: '',
       createdTime: '',
+      items: [],
     };
   }
 
   // Create a new order
   createOrder(): void {
-    // Console log the new order
-    console.log(this.newOrder);
-
-
     // Set the created time
     this.newOrder.createdTime = new Date().toISOString();
     this.orderService.createOrder(this.newOrder).then(() => {
       console.log('Order created successfully!');
       this.newOrder = this.initializeOrder(); // Reset the form
     });
+
+    // Navigate to the orders list
+    this.router.navigate(['/orders']); // Navigate to the orders list or desired route
   }
 }

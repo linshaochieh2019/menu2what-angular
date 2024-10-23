@@ -1,4 +1,4 @@
-<div *ngIf="order">
+<div *ngIf="order" class="my-4">
   <h2>Order Details</h2>
   <p>Order ID: {{ order.orderId }}</p>
   <p>Store ID: {{ order.storeId }}</p>
@@ -8,6 +8,28 @@
   <p>Created Time: {{ order.createdTime }}</p>
 </div>
 
-<div *ngIf="order">
+<div *ngIf="order" class="my-4">
+  <ul *ngIf="order.items && order.items.length > 0">
+    <li *ngFor="let item of order.items; let i = index">
+      <strong>Product ID:</strong> {{ item.productId }} <br />
+      <strong>Options:</strong>
+      <ul>
+        <li *ngFor="let option of objectKeys(item.options)">
+          {{ getOptionValue(item.options[option]) }}
+        </li>
+      </ul>
+      <button (click)="removeItem(order.orderId, i)">
+        Remove Item
+      </button>
+      <!-- Remove button -->
+    </li>
+  </ul>
+
+  <p *ngIf="!order.items || order.items.length === 0">
+    No items in this order.
+  </p>
+</div>
+
+<div *ngIf="order" class="my-4">
   <app-menu [storeId]="order.storeId"></app-menu>
 </div>
