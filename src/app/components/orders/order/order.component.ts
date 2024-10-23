@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { OrderService } from '../../../services/order/order.service';
 import { Order } from '../../../models/order.model';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 
 @Component({
@@ -12,8 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class OrderComponent implements OnInit {
   orderId: string | null = null;
-  order: Order | undefined = undefined;
-  orderSubscription: Subscription | undefined; // Declare orderSubscription as a property
+  order$: Observable<Order | undefined> | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,23 +20,16 @@ export class OrderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      this.orderId = params.get('orderId');
-      if (this.orderId) {
-        // Subscribe to the order observable
-        this.orderSubscription = this.orderService
-          .getOrderById(this.orderId)
-          .subscribe((order) => {
-            this.order = order; // Update the order property with the latest data
-            console.log('Order loaded:', this.order);
-          });
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    console.log('OrderComponent destroyed');
-    this.orderSubscription?.unsubscribe(); // Unsubscribe to prevent memory leaks
+    // Using switchMap to manage observables and avoid nesting subscriptions
+    this.order$ = this.route.paramMap.pipe(
+      switchMap((params) => {
+        const orderId = params.get('orderId');
+        if (orderId) {
+          return this.orderService.getOrder(orderId);
+        }
+        return [undefined]; // Returns an empty observable when orderId is not present
+      })
+    );
   }
 
   // Helper method to get object keys
@@ -51,24 +43,22 @@ export class OrderComponent implements OnInit {
     return option[Object.keys(option)[0]];
   }
 
-  removeItem(orderId: string, index: number): void {
-    const updatedItems = [...this.orderService.order!.items];
+  removeItem(order: Order, index: number): void {
+    const updatedItems = [...order.items];
     updatedItems.splice(index, 1);
 
     const updatedOrder: Order = {
-      ...this.orderService.order!,
+      ...order,
       items: updatedItems,
     };
 
     this.orderService
       .updateOrder(updatedOrder)
       .then(() => {
-        console.log(`Item removed from order ${orderId}`);
+        console.log(`Item removed from order ${order.orderId}`);
       })
       .catch((error) => {
         console.error('Error removing item:', error);
       });
-
-    this.orderService.order = updatedOrder;
   }
 }

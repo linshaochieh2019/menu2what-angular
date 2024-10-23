@@ -1,7 +1,7 @@
 <div>
   <h2>All Orders</h2>
   <ul>
-    <li *ngFor="let order of orders">
+    <li *ngFor="let order of orders$ | async">
       <a [routerLink]="['/order', order.orderId]">
         <p>Order ID: {{ order.orderId }} | Store ID: {{ order.storeId }}</p>
       </a>

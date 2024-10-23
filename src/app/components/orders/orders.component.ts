@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OrderService } from '../../services/order/order.service';
 import { Order } from '../../models/order.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -8,17 +9,14 @@ import { Order } from '../../models/order.model';
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent {
-  orders: Order[] = [];
+  orders$!: Observable<Order[]>; // Use definite assignment assertion
   selectedOrder: Order | null = null;
   newOrder: Order = this.initializeOrder();  // Order form binding
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
-    // Fetch all orders on init
-    this.orderService.getAllOrders().subscribe((orders: Order[]) => {
-      this.orders = orders;
-    });
+    this.orders$ = this.orderService.getOrders();
   }
 
   // Initialize an empty order
