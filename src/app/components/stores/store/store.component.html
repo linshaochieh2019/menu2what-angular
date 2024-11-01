@@ -20,10 +20,38 @@
           </p>
           <p class="text-muted mb-2"><strong>Hours:</strong> 11:00 - 23:00</p>
         </div>
-        <div>
+        <div *ngIf="!addingOrder" class="mt-4">
           <button class="btn btn-primary" (click)="startOrder()">
             Start an Order
           </button>
+        </div>
+        <div *ngIf="addingOrder" class="mt-4">
+          <div class="container">
+            <form (ngSubmit)="createOrder()" class="row g-3">
+              <div class="col-md-6">
+                <label for="orderDeadline" class="form-label my-1">Order Deadline:</label>
+                <input
+                  type="datetime-local"
+                  [(ngModel)]="newOrder.orderDeadline"
+                  name="orderDeadline"
+                  class="form-control"
+                  required
+                />
+                <label for="deliverTime" class="form-label my-1">Deliver Time:</label>
+                <input
+                  type="datetime-local"
+                  [(ngModel)]="newOrder.deliverTime"
+                  name="deliverTime"
+                  class="form-control"
+                  required
+                />
+              </div>
+          
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

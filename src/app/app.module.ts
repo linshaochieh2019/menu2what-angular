@@ -9,7 +9,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // To support
 import { MenuComponent } from './components/orders/order/menu/menu.component';
 import { ItemComponent } from './components/orders/order/item/item.component';
 import { OrdersComponent } from './components/orders/orders.component';
-import { AddOrderComponent } from './components/orders/add-order/add-order.component';
 import { OrderComponent } from './components/orders/order/order.component';
 import { AddStoreComponent } from './components/stores/add-store/add-store.component';
 import { StoresComponent } from './components/stores/stores.component';
@@ -25,7 +24,6 @@ const routes: Routes = [
   { path: '', component: StoresComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'order/:orderId', component: OrderComponent },
-  { path: 'add-order', component: AddOrderComponent },
   { path: 'stores', component: StoresComponent },
   { path: 'store/:id', component: StoreComponent },
   { path: 'add-store', component: AddStoreComponent },
@@ -38,7 +36,6 @@ const routes: Routes = [
     ItemComponent,
     AddStoreComponent,
     OrdersComponent,
-    AddOrderComponent,
     OrderComponent,
     StoresComponent,
     StoreComponent,
