@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // To support ngModel for form binding
 
 // Custom components
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { MenuComponent } from './components/orders/order/menu/menu.component';
 import { ItemComponent } from './components/orders/order/item/item.component';
 import { OrdersComponent } from './components/orders/orders.component';
@@ -39,6 +40,7 @@ const routes: Routes = [
     OrderComponent,
     StoresComponent,
     StoreComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
