@@ -1,49 +1,3 @@
-<!-- <div>
-  <h2>All Orders</h2>
-  <ul>
-    <li *ngFor="let order of orders$ | async">
-      <a [routerLink]="['/order', order.orderId]">
-        <p>Order ID: {{ order.orderId }} | Store ID: {{ order.storeId }}</p>
-      </a>
-
-      <button (click)="editOrder(order)">Edit</button>
-      <button (click)="deleteOrder(order.orderId)">Delete</button>
-    </li>
-  </ul>
-</div>
-
-<div *ngIf="selectedOrder">
-  <h2>Edit Order</h2>
-  <form (ngSubmit)="updateOrder()">
-    <label for="storeId">Store ID:</label>
-    <input [(ngModel)]="selectedOrder.storeId" name="storeId" required readonly />
-
-    <label for="orderDeadline">Order Deadline:</label>
-    <input type="datetime-local" [(ngModel)]="selectedOrder.orderDeadline" name="orderDeadline" required />
-    
-    <label for="deliverTime">Deliver Time:</label>
-    <input type="datetime-local" [(ngModel)]="selectedOrder.deliverTime" name="deliverTime" required />
-    
-    <button type="submit">Update Order</button>
-  </form>
-</div> -->
-
-<!-- <div class="container my-5">
-  <h3 class="fw-bold mb-4">Orders</h3>
-  <div class="list-group">
-    <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-      <div class="d-flex align-items-center">
-        <img src="path/to/nike-logo.jpg" class="rounded me-3" alt="Nike Logo" style="width: 50px; height: 50px;">
-        <div>
-          <h6 class="mb-1">Nike</h6>
-          <small class="text-muted">June 1, 2022</small>
-        </div>
-      </div>
-      <span class="fw-bold">$300</span>
-    </div>    
-  </div>
-</div> -->
-
 <div class="container my-5">
   <h3 class="fw-bold mb-4">Orders</h3>
   <ul class="list-group">
@@ -77,12 +31,6 @@
       <!-- Action Buttons -->
       <div>
         <button
-          (click)="editOrder(orderWithStore.order)"
-          class="btn btn-outline-primary btn-sm me-2"
-        >
-          Edit
-        </button>
-        <button
           (click)="deleteOrder(orderWithStore.order.orderId)"
           class="btn btn-outline-danger btn-sm"
         >
@@ -92,3 +40,20 @@
     </li>
   </ul>
 </div>
+
+
+<!-- <div *ngIf="selectedOrder">
+  <h2>Edit Order</h2>
+  <form (ngSubmit)="updateOrder()">
+    <label for="storeId">Store ID:</label>
+    <input [(ngModel)]="selectedOrder.storeId" name="storeId" required readonly />
+
+    <label for="orderDeadline">Order Deadline:</label>
+    <input type="datetime-local" [(ngModel)]="selectedOrder.orderDeadline" name="orderDeadline" required />
+    
+    <label for="deliverTime">Deliver Time:</label>
+    <input type="datetime-local" [(ngModel)]="selectedOrder.deliverTime" name="deliverTime" required />
+    
+    <button type="submit">Update Order</button>
+  </form>
+</div> -->

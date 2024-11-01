@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // To support
 
 // Custom components
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { MenuComponent } from './components/orders/order/menu/menu.component';
+import { OrderingInterfaceComponent } from './components/orders/order/ordering-interface/ordering-interface.component';
 import { ItemComponent } from './components/orders/order/item/item.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { OrderComponent } from './components/orders/order/order.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
+    OrderingInterfaceComponent,
     ItemComponent,
     AddStoreComponent,
     OrdersComponent,

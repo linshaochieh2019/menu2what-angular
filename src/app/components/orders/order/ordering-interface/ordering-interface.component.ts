@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Input } from '@angular/core';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss',
+  selector: 'app-ordering-interface',
+  templateUrl: './ordering-interface.component.html',
+  styleUrl: './ordering-interface.component.scss',
 })
-export class MenuComponent implements OnInit {
+export class OrderingInterfaceComponent implements OnInit {
   @Input() storeId: string | null = '';
   store: Store | undefined;
   
