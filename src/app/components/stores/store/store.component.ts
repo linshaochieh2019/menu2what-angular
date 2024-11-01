@@ -60,6 +60,7 @@ export class StoreComponent implements OnInit {
   createOrder(): void {
     // Set the created time
     this.newOrder.createdTime = new Date().toISOString();
+    this.newOrder.status = 'Ongoing';
     this.orderService.createOrder(this.newOrder).then(() => {
       console.log('Order created successfully!');
       this.newOrder = this.initializeOrder(); // Reset the form

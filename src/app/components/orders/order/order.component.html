@@ -1,34 +1,151 @@
-<ng-container *ngIf="order$ | async as order">
-  <div class="my-4">
-    <h2>Order Details</h2>
-    <p>Order ID: {{ order.orderId }}</p>
-    <p>Store ID: {{ order.storeId }}</p>
-    <p>Order Deadline: {{ order.orderDeadline }}</p>
-    <p>Deliver Time: {{ order.deliverTime }}</p>
-    <p>Status: {{ order.status }}</p>
-    <p>Created Time: {{ order.createdTime }}</p>
-  </div>
+<ng-container *ngIf="orderWithStore$ | async as orderWithStore">
+  <div *ngIf="orderWithStore.store && orderWithStore.order">
+    <div class="container my-5">
+      <div class="row">
+        <!-- Left Column: Store Information -->
+        <div class="col-7">
+          <div class="d-flex align-items-center mb-3">
+            <h5 class="fw-bold me-3">{{ orderWithStore.store.storeName }}</h5>
+            <p class="text-muted mb-0">{{ orderWithStore.store.address }}</p>
+          </div>
 
-  <div class="my-4">
-    <ul *ngIf="order.items && order.items.length > 0">
-      <li *ngFor="let item of order.items; let i = index">
-        <strong>Product ID:</strong> {{ item.productId }} <br />
-        <strong>Options:</strong>
-        <ul>
-          <li *ngFor="let option of objectKeys(item.options)">
-            {{ getOptionValue(item.options[option]) }}
-          </li>
-        </ul>
-        <button (click)="removeItem(order, i)">Remove Item</button>
-      </li>
-    </ul>
+          <ul class="list-unstyled">
+            <li class="d-flex justify-content-between align-items-center py-1">
+              <span
+                >訂單截止:
+                {{ orderWithStore.order.orderDeadline | date : "yyyy-MM-dd" }}
+                {{
+                  orderWithStore.order.orderDeadline | date : "hh:mm a"
+                }}</span
+              >
+            </li>
+            <li class="d-flex justify-content-between align-items-center py-1">
+              <span
+                >送餐時間:
+                {{ orderWithStore.order.deliverTime | date : "yyyy-MM-dd" }}
+                {{ orderWithStore.order.deliverTime | date : "hh:mm a" }}</span
+              >
+            </li>
+            <li class="d-flex justify-content-between align-items-center py-1">
+              <span>訂單狀態: {{ orderWithStore.order.status }}</span>
+            </li>
+          </ul>
 
-    <p *ngIf="!order.items || order.items.length === 0">
-      No items in this order.
-    </p>
-  </div>
+          <div *ngIf="!isEditing">
+            <div class="col-md-4 text-right">
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                (click)="startEditing()"
+              >
+                <i class="bi bi-pen"></i> Edit Order
+              </button>
+            </div>
+          </div>
 
-  <div class="my-4">
-    <app-ordering-interface [storeId]="order.storeId"></app-ordering-interface>
+          <div *ngIf="isEditing">
+            <form (ngSubmit)="updateOrder(orderWithStore.order)">
+              <label for="orderDeadline">Order Deadline:</label>
+              <input
+                type="datetime-local"
+                [(ngModel)]="orderWithStore.order.orderDeadline"
+                name="orderDeadline"
+                class="form-control"
+                required
+              />
+
+              <label for="deliverTime">Deliver Time:</label>
+              <input
+                type="datetime-local"
+                [(ngModel)]="orderWithStore.order.deliverTime"
+                name="deliverTime"
+                class="form-control"
+                required
+              />
+
+              <label for="status">Status:</label>
+              <select
+                [(ngModel)]="orderWithStore.order.status"
+                name="status"
+                class="form-control"
+                required
+              >
+                <option value="進行中">進行中</option>
+                <option value="已截止">已截止</option>
+                <option value="已取消">已取消</option>
+              </select>
+
+              <div class="mt-2">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">
+                  Update Order
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm ms-1"
+                  (click)="stopEditing()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="my-4">
+            <div *ngIf="orderWithStore.store">
+              <app-ordering-interface
+                [storeId]="orderWithStore.store.storeId"
+              ></app-ordering-interface>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Items -->
+        <div class="col-4">
+          <div class="my-1">
+            <ul
+              *ngIf="
+                orderWithStore.order.items &&
+                orderWithStore.order.items.length > 0
+              "
+            >
+              <div class="container">
+                <h5 class="fw-bold">訂單總覽</h5>
+                <p class="text-muted">
+                  {{ orderWithStore.order.items.length }} items
+                </p>
+
+                <ul class="list-unstyled">
+                  <li
+                    *ngFor="
+                      let item of orderWithStore.order.items;
+                      let i = index
+                    "
+                    class="mb-2 d-flex align-items-center"
+                  >
+                    {{ item.productName }} ··· {{ item.optionsString }}
+                    <span class="text-muted ms-2">({{ item.orderedBy }})</span>
+                    <span class="ms-auto">
+                      <span class="text-muted">${{ item.price }} </span>
+                      <span
+                        class="remove-item"
+                        (click)="removeItem(orderWithStore.order, i)"
+                        >x
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </ul>
+
+            <p
+              *ngIf="
+                !orderWithStore.order.items ||
+                orderWithStore.order.items.length === 0
+              "
+            >
+              No items in this order.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-container>

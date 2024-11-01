@@ -64,6 +64,7 @@ export class ItemComponent {
   // Clear all selections
   clearSelections() {
     this.selectedOptions = {}; // Reset the selected options
+    this.selectedPrice = undefined; // Reset the selected price
   }
 
   onConfirm() {
@@ -74,10 +75,16 @@ export class ItemComponent {
       }
     );
 
+    // Format the options as a string for display
+    const orderItemOptionsString = Object.values(this.selectedOptions).join(', '); 
+
+
     // add productId and options to the order item
     const orderItem: OrderItem = {
       productId: this.item?.productId ?? '',
+      productName: this.item?.productName ?? '',
       options: orderItemOptions,
+      optionsString: orderItemOptionsString,
       price: this.selectedPrice ?? 0,
       orderedBy: 'user',
     };

@@ -3,6 +3,7 @@ export interface Store {
   storeName: string;
   storeImage?: string;
   menu: Product[];
+  address?: string
 }
 
 export interface Product {

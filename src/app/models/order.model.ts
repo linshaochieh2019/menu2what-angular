@@ -10,7 +10,9 @@ export interface Order {
 
 export interface OrderItem {
   productId: string;
+  productName: string; // Added when ordered
   options: { [key: string]: any }; // Options as a dynamic key-value pair
+  optionsString: string; // Options as a string for displaying
   price: number;
   orderedBy: string;
 }
