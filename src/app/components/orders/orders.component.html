@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <h2>All Orders</h2>
   <ul>
     <li *ngFor="let order of orders$ | async">
@@ -26,4 +26,69 @@
     
     <button type="submit">Update Order</button>
   </form>
+</div> -->
+
+<!-- <div class="container my-5">
+  <h3 class="fw-bold mb-4">Orders</h3>
+  <div class="list-group">
+    <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+      <div class="d-flex align-items-center">
+        <img src="path/to/nike-logo.jpg" class="rounded me-3" alt="Nike Logo" style="width: 50px; height: 50px;">
+        <div>
+          <h6 class="mb-1">Nike</h6>
+          <small class="text-muted">June 1, 2022</small>
+        </div>
+      </div>
+      <span class="fw-bold">$300</span>
+    </div>    
+  </div>
+</div> -->
+
+<div class="container my-5">
+  <h3 class="fw-bold mb-4">Orders</h3>
+  <ul class="list-group">
+    <li
+      *ngFor="let orderWithStore of ordersWithStores$ | async"
+      class="list-group-item d-flex justify-content-between align-items-center py-3"
+    >
+      <a
+        [routerLink]="['/order', orderWithStore.order.orderId]"
+        class="d-flex align-items-center text-decoration-none text-dark"
+      >
+        <!-- Store Image -->
+        <img
+          [src]="orderWithStore.store.storeImage"
+          class="rounded me-3"
+          alt="Store Logo"
+          style="width: 50px; height: 50px"
+        />
+        <div>
+          <!-- Store Name and Order Date -->
+          <h6 class="mb-1">{{ orderWithStore.store.storeName }}</h6>
+          <small class="text-muted">
+            {{ orderWithStore.order.deliverTime | date : "mediumDate" }}
+          </small>
+        </div>
+      </a>
+      
+      <!-- Order Status -->
+      <span class="fw-bold me-3">{{ orderWithStore.order.status }}</span>
+
+      <!-- Action Buttons -->
+      <div>
+        <button
+          (click)="editOrder(orderWithStore.order)"
+          class="btn btn-outline-primary btn-sm me-2"
+        >
+          Edit
+        </button>
+        <button
+          (click)="deleteOrder(orderWithStore.order.orderId)"
+          class="btn btn-outline-danger btn-sm"
+        >
+          Delete
+        </button>
+      </div>
+    </li>
+  </ul>
 </div>
